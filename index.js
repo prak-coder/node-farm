@@ -1,5 +1,6 @@
 const fs = require("fs");
 const http = require("http");
+const url = require("url");
 
 // const inputRead = fs.readFileSync("./txt/input.txt", "utf-8");
 // console.log(inputRead);
@@ -19,7 +20,19 @@ const http = require("http");
 //   });
 // });
 const server = http.createServer((req, res) => {
-  res.end("hello world from server");
+  const pathName = req.url;
+  console.log(pathName);
+  if (pathName === "/" || pathName === "/overview") {
+    res.end("this is the OVERVIEW");
+  } else if (pathName === "/product") {
+    res.end("this is the Product");
+  } else {
+    res.writeHead(404, {
+      "Content-type": "text/html",
+      "my-own-header": "hello-world",
+    });
+    res.end("<h1>page not found</h1>");
+  }
 });
 
 server.listen(8000, "127.0.0.1", () => {
